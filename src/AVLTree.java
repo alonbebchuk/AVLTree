@@ -196,7 +196,9 @@ public class AVLTree {
         while (parent != null) {
             if (fixXor) {
                 parent.updateXor();
-            } else if (fixHeight) {
+            }
+
+            if (fixHeight) {
                 prevParentHeight = parent.getHeight();
                 parent.updateHeight();
 
@@ -207,7 +209,9 @@ public class AVLTree {
                     numRotations = 1;
                     fixHeight = false;
                 }
-            } else {
+            }
+
+            if (!fixXor && !fixHeight) {
                 break;
             }
 
