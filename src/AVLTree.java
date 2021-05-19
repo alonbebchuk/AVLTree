@@ -190,7 +190,7 @@ public class AVLTree {
             setFirstRightChildToSecond(parent, newNode);
         }
 
-        int numRotations = 0, prevParentHeight;
+        int fixPathLen = 0, prevParentHeight;
         boolean fixHeight = true, fixXor = i;
 
         while (parent != null) {
@@ -204,10 +204,13 @@ public class AVLTree {
 
                 if (parent.getHeight() == prevParentHeight) {
                     fixHeight = false;
-                } else if (Math.abs(parent.getBalanceFactor()) > 1) {
-                    this.rotation(parent);
-                    numRotations = 1;
-                    fixHeight = false;
+                } else {
+                    fixPathLen++;
+
+                    if (Math.abs(parent.getBalanceFactor()) > 1) {
+                        this.rotation(parent);
+                        fixHeight = false;
+                    }
                 }
             }
 
@@ -218,7 +221,7 @@ public class AVLTree {
             parent = parent.getParent();
         }
 
-        return numRotations;
+        return fixPathLen;
     }
 
     /**
@@ -274,7 +277,7 @@ public class AVLTree {
         }
         size--;
 
-        int numRotations = 0, prevParentHeight;
+        int fixPathLen = 0, prevParentHeight;
         boolean fixHeight = true;
 
         while (parent != null) {
@@ -286,16 +289,19 @@ public class AVLTree {
 
                 if (parent.getHeight() == prevParentHeight) {
                     fixHeight = false;
-                } else if (Math.abs(parent.getBalanceFactor()) > 1) {
-                    parent = this.rotation(parent);
-                    numRotations++;
+                } else {
+                    fixPathLen++;
+
+                    if (Math.abs(parent.getBalanceFactor()) > 1) {
+                        parent = this.rotation(parent);
+                    }
                 }
             }
 
             parent = parent.getParent();
         }
 
-        return numRotations;
+        return fixPathLen;
     }
 
     public AVLNode minNode() {
