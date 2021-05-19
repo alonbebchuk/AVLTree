@@ -357,9 +357,6 @@ public class AVLTree {
 
         for (int i = 0; i < arr.length; i++) {
             arr[i] = x.getKey();
-            if (arr[i] == 44) {
-                int a = 1;
-            }
             x = this.successor(x);
         }
 
