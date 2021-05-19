@@ -60,7 +60,7 @@ public class AVLTree {
 
         if (node2Parent == null) {
             this.root = node1;
-        } else if (node2.getKey() < node2Parent.getKey()) {
+        } else if (node2 == node2Parent.left) {
             node2Parent.setLeft(node1);
         } else {
             node2Parent.setRight(node1);
@@ -239,12 +239,17 @@ public class AVLTree {
 
                 if (node.left.isRealNode() && node.right.isRealNode()) {
                     AVLNode successor = this.successor(node);
+                    parent = successor.getParent();
+
+                    if (successor == parent.left) {
+                        parent.setLeft(this.virtualNode);
+                    } else {
+                        parent.setRight(this.virtualNode);
+                    }
 
                     setFirstParentToSecondParent(successor, node);
                     setFirstLeftChildToSecond(successor, node.left);
                     setFirstRightChildToSecond(successor, node.right);
-
-                    parent = successor.getParent();
                 } else if (node.left.isRealNode() || node.right.isRealNode()) {
                     setFirstParentToSecondParent(node.left.isRealNode() ? node.left : node.right, node);
                 } else {
@@ -352,6 +357,9 @@ public class AVLTree {
 
         for (int i = 0; i < arr.length; i++) {
             arr[i] = x.getKey();
+            if (arr[i] == 44) {
+                int a = 1;
+            }
             x = this.successor(x);
         }
 
@@ -465,9 +473,13 @@ public class AVLTree {
         AVLNode node = this.minNode();
         int trueCnt = 0;
 
-        while (node.getKey() != k) {
+        while (true) {
             if (node.getValue()) {
                 trueCnt++;
+            }
+
+            if (node.getKey() == k) {
+                break;
             }
 
             node = this.successor(node);
@@ -512,7 +524,7 @@ public class AVLTree {
             this.key = key;
             this.value = value;
             this.height = 0;
-            this.trueCount = 0;
+            this.trueCount = this.value ? 1 : 0;
         }
 
         //returns node's key (for virtual node return -1)
