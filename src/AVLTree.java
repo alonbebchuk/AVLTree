@@ -587,6 +587,7 @@ public class AVLTree {
         private int height;
         private int trueCnt;
 
+        //constructor for virtual node
         public AVLNode() {
             this.key = -1;
             this.value = null;
@@ -594,6 +595,7 @@ public class AVLTree {
             this.trueCnt = 0;
         }
 
+        //constructor for real node
         public AVLNode(int key, boolean value) {
             this.left = AVLTree.this.virtualNode;
             this.right = AVLTree.this.virtualNode;
@@ -661,14 +663,17 @@ public class AVLTree {
             return this.height;
         }
 
+        //updates the height of the node
         private void updateHeight() {
             this.setHeight(1 + Math.max(this.getLeft().getHeight(), this.getRight().getHeight()));
         }
 
+        //returns the balance factor of the node
         private int getBalanceFactor() {
             return this.getLeft().getHeight() - this.getRight().getHeight();
         }
 
+        //updates the trueCnt of the node
         private void updateXor() {
             this.trueCnt = (this.value ? 1 : 0) + this.getLeft().trueCnt + this.getRight().trueCnt;
         }
