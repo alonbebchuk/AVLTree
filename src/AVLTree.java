@@ -128,17 +128,17 @@ public class AVLTree {
             nodeGrandChild.updateHeight();
         }
 
-        node.updateXor();
-        nodeChild.updateXor();
+        node.updateTrueCnt();
+        nodeChild.updateTrueCnt();
         if (nodeGrandChild != null) {
-            nodeGrandChild.updateXor();
+            nodeGrandChild.updateTrueCnt();
         }
     }
 
     /**
      * private AVLNode rotation(AVLNode node)
      * <p>
-     * given an AVL criminal node, performs matching rotation,
+     * given an AVL criminal node, performs matching rotation and
      * returns the node which is now in the criminal's original location
      * <p>
      * Complexity - O(1)
@@ -230,12 +230,13 @@ public class AVLTree {
             this.setFirstRightChildToSecond(parent, newNode);
         }
 
-        // following path from inserted node to root fixing criminals and updating height and xor values of nodes
+        // following path from inserted node to root fixing criminals and updating height and trueCnt values of nodes
+        // and counting number of rotations and height updates made
         int fixPathLen = 1, prevParentHeight;
-        boolean fixHeight = true, fixXor = i;
+        boolean fixHeight = true, fixTrueCnt = i;
 
         while (parent != null) {
-            if (fixXor) {
+            if (fixTrueCnt) {
                 parent.trueCnt++;
             }
 
@@ -256,7 +257,7 @@ public class AVLTree {
                 }
             }
 
-            if (!fixXor && !fixHeight) {
+            if (!fixTrueCnt && !fixHeight) {
                 break;
             }
 
@@ -345,13 +346,14 @@ public class AVLTree {
         }
 
         // following path from parent of physically deleted node to root
-        // fixing criminals and updating height and xor values of nodes
+        // fixing criminals and updating height and trueCnt values of nodes
+        // and counting number of rotations and height updates made
         int fixPathLen = 0, prevParentHeight;
-        boolean fixHeight = true, fixXor = node.getValue() || (successor == null ? false : successor.getValue());
+        boolean fixHeight = true, fixTrueCnt = node.getValue() || (successor == null ? false : successor.getValue());
 
         while (parent != null) {
-            if (fixXor) {
-                parent.updateXor();
+            if (fixTrueCnt) {
+                parent.updateTrueCnt();
             }
 
             if (fixHeight) {
@@ -370,7 +372,7 @@ public class AVLTree {
                 }
             }
 
-            if (!fixXor && !fixHeight) {
+            if (!fixTrueCnt && !fixHeight) {
                 break;
             }
 
@@ -648,17 +650,17 @@ public class AVLTree {
             return this.parent;
         }
 
-        // Returns True if this is a non-virtual AVL node
+        //returns true if this is a non-virtual AVL node
         public boolean isRealNode() {
             return this.getKey() != -1;
         }
 
-        // sets the height of the node
+        //sets the height of the node
         public void setHeight(int height) {
             this.height = height;
         }
 
-        // Returns the height of the node (-1 for virtual nodes)
+        //returns the height of the node (-1 for virtual nodes)
         public int getHeight() {
             return this.height;
         }
@@ -674,7 +676,7 @@ public class AVLTree {
         }
 
         //updates the trueCnt of the node
-        private void updateXor() {
+        private void updateTrueCnt() {
             this.trueCnt = (this.value ? 1 : 0) + this.getLeft().trueCnt + this.getRight().trueCnt;
         }
     }
