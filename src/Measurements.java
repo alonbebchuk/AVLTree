@@ -3,12 +3,16 @@ import java.lang.Math;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
 public class Measurements {
 
     public static void main(String[] args) {
-        double[][] results = compareXors2();
-        print2D(results);
+        for (int i = 0; i < 100; i++) {
+            double[][] results = compareXors2();
+            print2D(results);
+            System.out.println();
 //        compareTrees();
+        }
     }
 
     public static void print2D(double mat[][])
@@ -42,30 +46,10 @@ public class Measurements {
 
             int[] keys = avlTree.keysToArray();
 
-            if (i == 1) {
-                for (int j = 0; j < 500 * i; j++) {
-                    start = System.nanoTime();
-                    avlTree.prefixXor(keys[j]);
-                    end = System.nanoTime();
-
-                    totalPrefixXor += end - start;
-                    if (j < 100) {
-                        totalFirst100PrefixXor += end - start;
-                    }
-
-                    start = System.nanoTime();
-                    avlTree.succPrefixXor(keys[j]);
-                    end = System.nanoTime();
-
-                    totalSuccPrefixXor += end - start;
-                    if (j < 100) {
-                        totalFirst100SuccPrefixXor += end - start;
-                    }
-                }
-                totalPrefixXor = totalFirst100PrefixXor = totalSuccPrefixXor = totalFirst100SuccPrefixXor = 0;
-            }
-
             for (int j = 0; j < 500 * i; j++) {
+                System.nanoTime();
+                System.nanoTime();
+
                 start = System.nanoTime();
                 avlTree.prefixXor(keys[j]);
                 end = System.nanoTime();
@@ -74,6 +58,9 @@ public class Measurements {
                 if (j < 100) {
                     totalFirst100PrefixXor += end - start;
                 }
+
+                System.nanoTime();
+                System.nanoTime();
 
                 start = System.nanoTime();
                 avlTree.succPrefixXor(keys[j]);
@@ -86,10 +73,10 @@ public class Measurements {
             }
 
             results[i-1] = new double[4];
-            results[i-1][0] = Math.round(totalPrefixXor / (500 * i));
-            results[i-1][1] = Math.round(totalFirst100PrefixXor / 100);
-            results[i-1][2] = Math.round(totalSuccPrefixXor / (500 * i));
-            results[i-1][3] = Math.round(totalFirst100SuccPrefixXor / 100);
+            results[i-1][0] = totalPrefixXor / (500 * i);
+            results[i-1][1] = totalFirst100PrefixXor / 100;
+            results[i-1][2] = totalSuccPrefixXor / (500 * i);
+            results[i-1][3] = totalFirst100SuccPrefixXor / 100;
         }
 
         return results;
