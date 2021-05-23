@@ -6,11 +6,24 @@ import java.util.stream.IntStream;
 public class Measurements {
 
     public static void main(String[] args) {
-        compareXors();
+        double[][] results = compareXors2();
+        print2D(results);
 //        compareTrees();
     }
 
-    private static void compareXors() {
+    public static void print2D(double mat[][])
+    {
+        // Loop through all rows
+        for (double[] row : mat)
+
+            // converting each row as string
+            // and then printing in a separate line
+            System.out.println(Arrays.toString(row));
+    }
+
+    private static double[][] compareXors2() {
+        double results[][] = new double[5][];
+
         List<Integer> inputs = IntStream.rangeClosed(1, 100000).boxed().collect(Collectors.toList());
         Collections.shuffle(inputs);
         Random rand = new Random();
@@ -21,8 +34,6 @@ public class Measurements {
         double totalPrefixXor, totalFirst100PrefixXor, totalSuccPrefixXor, totalFirst100SuccPrefixXor;
 
         for (int i = 1; i <= 5; i++) {
-            System.out.println("Round: " + i);
-
             for (int input : inputs.subList(500 * (i-1), 500 * i)) {
                 avlTree.insert(input, rand.nextBoolean());
             }
@@ -30,6 +41,7 @@ public class Measurements {
             totalPrefixXor = totalFirst100PrefixXor = totalSuccPrefixXor = totalFirst100SuccPrefixXor = 0;
 
             int[] keys = avlTree.keysToArray();
+
             for (int j = 0; j < 500 * i; j++) {
                 start = System.nanoTime();
                 avlTree.prefixXor(keys[j]);
@@ -50,12 +62,14 @@ public class Measurements {
                 }
             }
 
-            System.out.println("prefixXor: " + (totalPrefixXor /= 500 * i) + " nanoseconds");
-            System.out.println("100 first prefixXor: " + (totalFirst100PrefixXor /= 100) + " nanoseconds");
-
-            System.out.println("succPrefixXor: " + (totalSuccPrefixXor /= 500 * i) + " nanoseconds");
-            System.out.println("100 first succPrefixXor: " + (totalFirst100SuccPrefixXor /= 100) + " nanoseconds");
+            results[i-1] = new double[4];
+            results[i-1][0] = Math.round(totalPrefixXor / (500 * i));
+            results[i-1][1] = Math.round(totalFirst100PrefixXor / 100);
+            results[i-1][2] = Math.round(totalSuccPrefixXor / (500 * i));
+            results[i-1][3] = Math.round(totalFirst100SuccPrefixXor / 100);
         }
+
+        return results;
     }
 
     public static int[] createArr(int size) {
