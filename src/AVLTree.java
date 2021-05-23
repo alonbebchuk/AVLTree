@@ -1,4 +1,13 @@
 /**
+ * id: 314023516
+ * name: Alon Bebchuk
+ * username: alonbebchuk
+ * <p>
+ * id: 328634373
+ * name: Aryeh Gorun
+ * username: aryehgorun
+ * <p>
+ * <p>
  * public class AVLNode
  * <p>
  * This class represents an AVLTree with integer keys and boolean values.

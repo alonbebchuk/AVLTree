@@ -5,10 +5,10 @@ import java.lang.Math;
 public class Measurements {
 
     public static void main(String[] args) {
-        System.out.println("Compare Xors Test");
-        compareXorsTest();
-        System.out.println("Compare Trees Test");
-        compareTreesTest();
+        System.out.println("Compare Xors Measurements");
+        compareXorsMeasurements();
+        System.out.println("Compare Trees Measurements");
+        compareTreesMeasurements();
     }
 
     private static List<Integer> randomUniqueList(int desiredSize) {
@@ -85,7 +85,7 @@ public class Measurements {
         }
     }
 
-    public static void compareXorsTest() {
+    public static void compareXorsMeasurements() {
         double[][] averageResult = new double[5][4], result;
         int attempts = 1000;
 
@@ -208,7 +208,7 @@ public class Measurements {
         return result;
     }
 
-    public static void compareTreesTest() {
+    public static void compareTreesMeasurements() {
         double[][] averageResult = new double[5][6], result;
         int attempts = 1000;
 
