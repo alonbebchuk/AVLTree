@@ -42,6 +42,29 @@ public class Measurements {
 
             int[] keys = avlTree.keysToArray();
 
+            if (i == 1) {
+                for (int j = 0; j < 500 * i; j++) {
+                    start = System.nanoTime();
+                    avlTree.prefixXor(keys[j]);
+                    end = System.nanoTime();
+
+                    totalPrefixXor += end - start;
+                    if (j < 100) {
+                        totalFirst100PrefixXor += end - start;
+                    }
+
+                    start = System.nanoTime();
+                    avlTree.succPrefixXor(keys[j]);
+                    end = System.nanoTime();
+
+                    totalSuccPrefixXor += end - start;
+                    if (j < 100) {
+                        totalFirst100SuccPrefixXor += end - start;
+                    }
+                }
+                totalPrefixXor = totalFirst100PrefixXor = totalSuccPrefixXor = totalFirst100SuccPrefixXor = 0;
+            }
+
             for (int j = 0; j < 500 * i; j++) {
                 start = System.nanoTime();
                 avlTree.prefixXor(keys[j]);
