@@ -253,7 +253,6 @@ public class AVLTree {
             parent.successor = newNode;
         }
 
-
         // following path from inserted node to root fixing criminals and updating height and trueCnt values of nodes
         // and counting number of rotations and height updates made
         int fixPathLen = 1, prevParentHeight;
@@ -598,8 +597,8 @@ public class AVLTree {
         private AVLNode left;
         private AVLNode right;
 
-        public AVLNode predecessor;
-        public AVLNode successor;
+        private AVLNode predecessor;
+        private AVLNode successor;
 
         private int key;
         private Boolean value;
