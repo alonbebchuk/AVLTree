@@ -45,14 +45,14 @@ class BTreePrinter {
                     continue;
                 }
 
-                if (nodes.get(j).getLeft() != null)
+                if (nodes.get(j).getLeft() != null && nodes.get(j).getLeft().isRealNode())
                     System.out.print("/");
                 else
                     BTreePrinter.printWhitespaces(1);
 
                 BTreePrinter.printWhitespaces(i + i - 1);
 
-                if (nodes.get(j).getRight() != null)
+                if (nodes.get(j).getRight() != null && nodes.get(j).getRight().isRealNode())
                     System.out.print("\\");
                 else
                     BTreePrinter.printWhitespaces(1);

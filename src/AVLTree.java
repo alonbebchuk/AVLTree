@@ -230,14 +230,29 @@ public class AVLTree {
             this.max = newNode;
         }
 
-        // add newNode to tree in proper location
+        // add newNode to tree in proper location and update predecessors and successors of affected nodes
         if (parent == null) {
             this.root = newNode;
         } else if (k < parent.getKey()) {
             this.setFirstLeftChildToSecond(parent, newNode);
+
+            newNode.predecessor = parent.predecessor;
+            newNode.successor = parent;
+            if (parent.predecessor != null) {
+                parent.predecessor.successor = newNode;
+            }
+            parent.predecessor = newNode;
         } else {
             this.setFirstRightChildToSecond(parent, newNode);
+
+            newNode.predecessor = parent;
+            newNode.successor = parent.successor;
+            if (parent.successor != null) {
+                parent.successor.predecessor = newNode;
+            }
+            parent.successor = newNode;
         }
+
 
         // following path from inserted node to root fixing criminals and updating height and trueCnt values of nodes
         // and counting number of rotations and height updates made
@@ -343,6 +358,14 @@ public class AVLTree {
                 node.setParent(null);
                 node.setLeft(null);
                 node.setRight(null);
+
+                // update predecessors and successors of affected nodes
+                if (node.predecessor != null) {
+                    node.predecessor.successor = node.successor;
+                }
+                if (node.successor != null) {
+                    node.successor.predecessor = node.predecessor;
+                }
 
                 break;
             } else {
@@ -522,28 +545,10 @@ public class AVLTree {
      * @param node - the node whose successor should be returned
      * @return the successor of 'node' if exists, null otherwise
      * <p>
-     * Complexity - O(log n)
+     * Complexity - O(1)
      */
     public AVLNode successor(AVLNode node) {
-        if (node.getRight().isRealNode()) {
-            node = node.getRight();
-
-            while (node.getLeft().isRealNode()) {
-                node = node.getLeft();
-            }
-
-            return node;
-        } else {
-            while (node.getParent() != null) {
-                if (node == node.getParent().getLeft()) {
-                    return node.getParent();
-                } else {
-                    node = node.getParent();
-                }
-            }
-
-            return null;
-        }
+        return node.successor;
     }
 
     /**
@@ -593,6 +598,9 @@ public class AVLTree {
         private AVLNode left;
         private AVLNode right;
 
+        public AVLNode predecessor;
+        public AVLNode successor;
+
         private int key;
         private Boolean value;
         private int height;
@@ -600,6 +608,13 @@ public class AVLTree {
 
         //constructor for virtual node
         public AVLNode() {
+            this.parent = null;
+            this.left = null;
+            this.right = null;
+
+            this.predecessor = null;
+            this.successor = null;
+
             this.key = -1;
             this.value = null;
             this.height = -1;
@@ -608,8 +623,12 @@ public class AVLTree {
 
         //constructor for real node
         public AVLNode(int key, boolean value) {
+            this.parent = null;
             this.left = AVLTree.this.virtualNode;
             this.right = AVLTree.this.virtualNode;
+
+            this.predecessor = null;
+            this.successor = null;
 
             this.key = key;
             this.value = value;

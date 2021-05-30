@@ -7,6 +7,7 @@ public class Measurements {
     public static void main(String[] args) {
         System.out.println("Compare Xors Measurements");
         compareXorsMeasurements();
+        System.out.println("-----------------------------------------------------------------------------------------");
         System.out.println("Compare Trees Measurements");
         compareTreesMeasurements();
     }
@@ -107,6 +108,7 @@ public class Measurements {
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 4; k++) {
                 averageResult[j][k] /= attempts;
+                averageResult[j][k] = Math.round(averageResult[j][k] * 100.0) / 100.0;
             }
         }
 
@@ -230,6 +232,7 @@ public class Measurements {
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 6; k++) {
                 averageResult[j][k] /= attempts;
+                averageResult[j][k] = Math.round(averageResult[j][k] * 100.0) / 100.0;
             }
         }
 
